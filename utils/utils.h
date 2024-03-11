@@ -1,6 +1,7 @@
 #ifndef _UTILS_H_
 #define _UTILS_H_
 #include <stdint.h>
+#include "./vec2/vec2.h"
 
 const double K = 8.988e9;
 const double E = 1.602e-19;

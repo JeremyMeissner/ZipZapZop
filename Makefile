@@ -7,7 +7,7 @@ CFLAGS:=-g -Ofast -Wall -Wextra -fsanitize=address -I/opt/homebrew/include -I/op
 LDFLAGS:=-lm -L/opt/homebrew/lib -lSDL2 # -lSDL2_ttf -lSDL2_image
 
 # Path to the lib Vec2
-VPATH:=vec2 ./utils/gfx 
+VPATH:=./utils/vec2 ./utils/gfx 
 
 main: main.o vec2.o gfx.o
 	$(CC) $(CFLAGS) -o $@ $^ $(LDFLAGS)

@@ -4,11 +4,13 @@
 
 #include "utils/gfx/gfx.h"
 
+/*
 typedef struct
 {
     uint32_t row;
     uint32_t column;
 } coordinates_t;
+*/
 
 // void gfx_draw_line(struct gfx_context_t *ctxt, coordinates_t p0, coordinates_t p1, uint32_t color);
 
