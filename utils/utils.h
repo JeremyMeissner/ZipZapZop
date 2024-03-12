@@ -2,15 +2,10 @@
 #define _UTILS_H_
 #include <stdint.h>
 #include "./vec2/vec2.h"
+#include "./gfx/gfx.h"
 
 const double K = 8.988e9;
 const double E = 1.602e-19;
-
-typedef struct
-{
-    uint32_t row;
-    uint32_t column;
-} coordinates_t;
 
 typedef struct
 {
