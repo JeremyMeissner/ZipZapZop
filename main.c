@@ -48,8 +48,12 @@ int main()
                     break;
             }
         }
+
+        /*DISPLAY START*/
+        draw_line(ctxt, 0, 0, SCREEN_HEIGHT, SCREEN_HEIGHT, MAKE_COLOR(255, 255, 255));
+        draw_circle(ctxt, SCREEN_WIDTH / 2,SCREEN_HEIGHT/2,SCREEN_WIDTH / 10,MAKE_COLOR(125,125,125));
+        /*DISPLAY END*/
     }
     gfx_destroy(ctxt);
     return EXIT_SUCCESS;
-        //draw_line(ctxt, 0, 0, SCREEN_HEIGHT, SCREEN_HEIGHT, MAKE_COLOR(255, 255, 255));
 }
