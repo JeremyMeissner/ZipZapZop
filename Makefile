@@ -12,9 +12,9 @@ VPATH:=./utils/vec2 ./utils/gfx
 main: main.o vec2.o gfx.o
 	$(CC) $(CFLAGS) -o $@ $^ $(LDFLAGS)
 
-vec2.o: vec2.h
-
-gfx.o: gfx.h
+run: main
+	rm -f *.o
+	./main
 
 clean:
-	rm -f *.o main tests
+	rm -f *.o main 

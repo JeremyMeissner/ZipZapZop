@@ -31,9 +31,25 @@ int main()
         gfx_present(ctxt);
         gfx_clear(ctxt, COLOR_BLACK);
 
-        draw_line(ctxt, 0, 0, SCREEN_HEIGHT, SCREEN_HEIGHT, MAKE_COLOR(255, 255, 255));
-    }
+        int pressedKey = gfx_keypressed();
+        if (pressedKey == 27)
+        { // Assuming 27 is the key code for Escape
+            printf("Shutting down the app\n");
+            break;
+        }
 
+        if (pressedKey != SDLK_UNKNOWN && pressedKey != 27)
+        {
+            switch (pressedKey)
+            {
+                // Add more cases for other keys as needed
+                default:
+                    printf("Unhandled key pressed\n");
+                    break;
+            }
+        }
+    }
     gfx_destroy(ctxt);
     return EXIT_SUCCESS;
+        //draw_line(ctxt, 0, 0, SCREEN_HEIGHT, SCREEN_HEIGHT, MAKE_COLOR(255, 255, 255));
 }
