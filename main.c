@@ -1,6 +1,7 @@
 #include <stdint.h>
 
 #include "utils/utils.h"
+#include "utils/charge/charge.h"
 
 #include "utils/gfx/gfx.h"
 
@@ -24,6 +25,12 @@ int main()
 
     // You can put stuff with printf's here before the simulation starts
 
+    charge_t ch1 = charge_create(5, vec2_create(SCREEN_WIDTH / 4, SCREEN_HEIGHT / 4));
+    charge_t ch2 = charge_create(-5, vec2_create(3 * SCREEN_WIDTH / 4, 3 * SCREEN_HEIGHT / 4));
+
+    charge_t charges[] = {ch1, ch2};
+    int number_of_charges = 2;
+
     /* DEBUG PLAYGROUND END */
 
     while (true)
@@ -42,16 +49,18 @@ int main()
         {
             switch (pressedKey)
             {
-                // Add more cases for other keys as needed
-                default:
-                    printf("Unhandled key pressed\n");
-                    break;
+            // Add more cases for other keys as needed
+            default:
+                printf("Unhandled key pressed\n");
+                break;
             }
         }
 
+        draw_charges(ctxt, charges, number_of_charges, 0, SCREEN_WIDTH, 0, SCREEN_HEIGHT);
+
         /*DISPLAY START*/
-        draw_line(ctxt, 0, 0, SCREEN_HEIGHT, SCREEN_HEIGHT, MAKE_COLOR(255, 255, 255));
-        draw_circle(ctxt, SCREEN_WIDTH / 2,SCREEN_HEIGHT/2,SCREEN_WIDTH / 10,MAKE_COLOR(125,125,125));
+        // draw_line(ctxt, 0, 0, SCREEN_HEIGHT, SCREEN_HEIGHT, MAKE_COLOR(255, 255, 255));
+        // draw_circle(ctxt, SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2, SCREEN_WIDTH / 10, MAKE_COLOR(125, 125, 125));
         /*DISPLAY END*/
     }
     gfx_destroy(ctxt);

@@ -21,9 +21,3 @@ double rand_one()
 {
     return (double)rand() / (double)RAND_MAX;
 }
-
-charge_t charge_create(double q, vec2 pos)
-{
-    charge_t c = {.q = q, .pos = pos};
-    return c;
-}

@@ -1,6 +1,8 @@
 {
   "files.associations": {
     "utils.h": "c",
-    "gfx.h": "c"
+    "gfx.h": "c",
+    "stdbool.h": "c",
+    "charge.h": "c"
   }
 }

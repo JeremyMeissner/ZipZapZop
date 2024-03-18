@@ -36,16 +36,16 @@ typedef struct
 } coordinates_t;
 
 extern void gfx_putpixel(
-struct gfx_context_t *ctxt, uint32_t column, uint32_t row, uint32_t color);
+    struct gfx_context_t *ctxt, uint32_t column, uint32_t row, uint32_t color);
 extern void gfx_clear(struct gfx_context_t *ctxt, uint32_t color);
 extern struct gfx_context_t *gfx_create(char *text, uint32_t width, uint32_t height);
 extern void gfx_destroy(struct gfx_context_t *ctxt);
 extern void gfx_present(struct gfx_context_t *ctxt);
-//new
+// new
 void gfx_draw_line(struct gfx_context_t *ctxt, coordinates_t p0, coordinates_t p1, uint32_t color);
 void gfx_draw_circle(struct gfx_context_t *ctxt, coordinates_t c, uint32_t r, uint32_t color);
 extern SDL_Keycode gfx_keypressed();
-//The illegals ones to use
+// The illegals ones to use
 extern void draw_circle(struct gfx_context_t *ctxt, uint32_t c_column, uint32_t c_row, uint32_t r, uint32_t color);
 extern void draw_line(struct gfx_context_t *ctxt, int x0, int y0, int x1, int y1, uint32_t color);
 extern void draw_full_circle(struct gfx_context_t *ctxt, uint32_t c_column, uint32_t c_row, uint32_t r, uint32_t color);
