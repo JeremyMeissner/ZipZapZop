@@ -10,11 +10,11 @@ bool compute_e(charge_t c, vec2 p, double treshold, vec2 *e)
 {
     vec2 qp = vec2_sub(c.pos, p);
 
-    double qpNorm = vec2_norm(qp);
+    double qpNorm = pow(vec2_norm(qp), 2);
 
-    vec2 e_qp = vec2_mul_vec(qp, *e);
+    vec2 e_qp = vec2_mul(K, qp);
 
-    vec2_mul(pow(qpNorm, -1), e_qp);
+    *e = vec2_mul(pow(qpNorm, -1), e_qp);
 
     if (qpNorm < treshold)
     {
@@ -25,7 +25,7 @@ bool compute_e(charge_t c, vec2 p, double treshold, vec2 *e)
 }
 
 // Compute the normalized sum of Ei*qiP/norm(qiP)
-// Return false if for some qiP, norm(qiP) < eps
+// Return false if for some qiP, norm(qiP) < epsà
 bool compute_total_normalized_e(charge_t *charges, int num_charges, vec2 p, double treshold, vec2 *e)
 {
     vec2 sum = vec2_create(0, 0);
@@ -51,11 +51,16 @@ bool compute_total_normalized_e(charge_t *charges, int num_charges, vec2 p, doub
 bool draw_field_line(struct gfx_context_t *ctxt, charge_t *charges, int num_charges, double dx, vec2 pos0, double x0, double x1, double y0, double y1)
 {
     vec2 posSuivant = pos0;
-    while (posSuivant.x < x1 && posSuivant.x > 0 && posSuivant.y < y1 && posSuivant.y > 0)
+    vec2 posNow = pos0;
+    int test = 10000;
+    while (posSuivant.x < x1 && posSuivant.x > 0 && posSuivant.y < y1 && posSuivant.y > 0 && test > 0)
     {
         vec2 e;
+        test--;
         if (!compute_total_normalized_e(charges, num_charges, posSuivant, 1e-3, &e))
             return false;
+
+        posNow = posSuivant;
 
         double enorme = vec2_norm(e);
 
@@ -65,7 +70,7 @@ bool draw_field_line(struct gfx_context_t *ctxt, charge_t *charges, int num_char
 
         printf("Suivant : x: %f, y: %f\n", posSuivant.x, posSuivant.y);
 
-        draw_line(ctxt, pos0.x, pos0.y, posSuivant.x, posSuivant.y, MAKE_COLOR(0, 0, 0));
+        draw_line(ctxt, posNow.x, posNow.y, posSuivant.x, posSuivant.y, MAKE_COLOR(0, 0, 0));
     }
 
     return true;
