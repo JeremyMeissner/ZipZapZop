@@ -36,6 +36,8 @@ struct gfx_context_t *gfx_create(char *title, uint32_t width, uint32_t height)
 
     SDL_ShowCursor(SDL_DISABLE);
     gfx_clear(ctxt, COLOR_BLACK);
+
+    SDL_ShowCursor(SDL_ENABLE);
     return ctxt;
 
 error:
@@ -104,11 +106,32 @@ SDL_Keycode gfx_keypressed()
     return 0;
 }
 
-void gfx_draw_line(struct gfx_context_t *ctxt, coordinates_t p0, coordinates_t p1, uint32_t color){
-    //Todo
+// If the mouse was clicked, returns the x and y coordinates of the click.
+// @param x Pointer to the variable where the x coordinate will be stored.
+// @param y Pointer to the variable where the y coordinate will be stored.
+// @return true if the mouse was clicked, false otherwise.
+bool gfx_mouseclicked(int *x, int *y)
+{
+    SDL_Event event;
+    if (SDL_PollEvent(&event))
+    {
+        if (event.type == SDL_MOUSEBUTTONDOWN)
+        {
+            *x = event.button.x;
+            *y = event.button.y;
+            return true;
+        }
+    }
+    return false;
 }
-void gfx_draw_circle(struct gfx_context_t *ctxt, coordinates_t c, uint32_t r, uint32_t color){
-    //Todo
+
+void gfx_draw_line(struct gfx_context_t *ctxt, coordinates_t p0, coordinates_t p1, uint32_t color)
+{
+    // Todo
+}
+void gfx_draw_circle(struct gfx_context_t *ctxt, coordinates_t c, uint32_t r, uint32_t color)
+{
+    // Todo
 }
 
 /// Draw a full circle using Andres's discrete circle algorithm.
@@ -153,7 +176,7 @@ void draw_full_circle(struct gfx_context_t *ctxt, uint32_t c_column, uint32_t c_
         draw_full_circle(ctxt, c_column, c_row, r - 1, color);
 }
 
-//Those are illegal to use in the final product
+// Those are illegal to use in the final product
 
 void draw_circle(struct gfx_context_t *ctxt, uint32_t c_column, uint32_t c_row, uint32_t r, uint32_t color)
 {

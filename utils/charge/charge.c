@@ -68,12 +68,16 @@ bool draw_field_line(struct gfx_context_t *ctxt, charge_t *charges, int num_char
 
         posSuivant = vec2_add(posSuivant, delta);
 
-        printf("Suivant : x: %f, y: %f\n", posSuivant.x, posSuivant.y);
-
         draw_line(ctxt, posNow.x, posNow.y, posSuivant.x, posSuivant.y, MAKE_COLOR(0, 0, 0));
     }
 
     return true;
+}
+
+bool draw_field_lines(struct gfx_context_t *ctxt, charge_t *charges, int num_charges, double dx, vec2 pos0, double x0, double x1, double y0, double y1)
+{
+    draw_field_line(ctxt, charges, num_charges, dx, pos0, x0, x1, y0, y1);
+    draw_field_line(ctxt, charges, num_charges, -dx, pos0, x0, x1, y0, y1);
 }
 
 // Draw all the charges
@@ -83,6 +87,11 @@ void draw_charges(struct gfx_context_t *context, charge_t *charges, int num_char
 {
     for (int i = 0; i < num_charges; i++)
     {
+
+        if (charges[i].pos.x < x0 || charges[i].pos.x > x1 || charges[i].pos.y < y0 || charges[i].pos.y > y1)
+        {
+            continue;
+        }
         int color;
         if (charges[i].q < 0)
         {

@@ -50,4 +50,6 @@ extern void draw_circle(struct gfx_context_t *ctxt, uint32_t c_column, uint32_t 
 extern void draw_line(struct gfx_context_t *ctxt, int x0, int y0, int x1, int y1, uint32_t color);
 extern void draw_full_circle(struct gfx_context_t *ctxt, uint32_t c_column, uint32_t c_row, uint32_t r, uint32_t color);
 
+bool gfx_mouseclicked(int *x, int *y);
+
 #endif
