@@ -50,22 +50,22 @@ bool compute_total_normalized_e(charge_t *charges, int num_charges, vec2 p, doub
 // (for example if pos0 is too close to a charge).
 bool draw_field_line(struct gfx_context_t *ctxt, charge_t *charges, int num_charges, double dx, vec2 pos0, double x0, double x1, double y0, double y1)
 {
-    for (int i = 0; i < num_charges; i++)
+    vec2 posSuivant = pos0;
+    while (posSuivant.x < x1 && posSuivant.x > 0 && posSuivant.y < y1 && posSuivant.y > 0)
     {
         vec2 e;
-        compute_total_normalized_e(charges, num_charges, pos0, 1e-3, &e);
+        if (!compute_total_normalized_e(charges, num_charges, pos0, 1e-3, &e))
+            return false;
+
         double enorme = vec2_norm(e);
 
         vec2 delta = vec2_mul(dx, vec2_mul(pow(enorme, -1), e));
 
-        vec2 posSuivant = vec2_add(pos0, delta);
+        posSuivant = vec2_add(posSuivant, delta);
 
-        if (posSuivant.x < x0 || posSuivant.x > x1 || posSuivant.y < y0 || posSuivant.y > y1)
-        {
-            return false;
-        }
+        printf("Suivant : x: %f, y: %f\n", posSuivant.x, posSuivant.y);
 
-        draw_line(ctxt, pos0.x, pos0.y, posSuivant.x, posSuivant.y, MAKE_COLOR(255, 255, 255));
+        draw_line(ctxt, pos0.x, pos0.y, posSuivant.x, posSuivant.y, MAKE_COLOR(0, 0, 0));
     }
 
     return true;
