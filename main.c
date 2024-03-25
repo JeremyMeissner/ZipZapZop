@@ -58,7 +58,7 @@ int main()
 
         draw_charges(ctxt, charges, number_of_charges, 0, SCREEN_WIDTH, 0, SCREEN_HEIGHT);
 
-        draw_field_line(ctxt, charges, number_of_charges, 0.1, vec2_create(SCREEN_WIDTH / 4.2, SCREEN_HEIGHT / 2.5), 0, SCREEN_WIDTH, 0, SCREEN_HEIGHT);
+        draw_field_line(ctxt, charges, number_of_charges, 0.01, vec2_create(SCREEN_WIDTH / 4.2, SCREEN_HEIGHT / 2.5), 0, SCREEN_WIDTH, 0, SCREEN_HEIGHT);
         // draw_field_line(ctxt, charges, number_of_charges, 0.0001, vec2_create(SCREEN_WIDTH / 2.4, SCREEN_HEIGHT / 1.5), 0, SCREEN_WIDTH, 0, SCREEN_HEIGHT);
         // draw_field_line(ctxt, charges, number_of_charges, 0.0001, vec2_create(SCREEN_WIDTH / 3.7, SCREEN_HEIGHT / 2.2), 0, SCREEN_WIDTH, 0, SCREEN_HEIGHT);
         // draw_field_line(ctxt, charges, number_of_charges, 0.0001, vec2_create(SCREEN_WIDTH / 4.9, SCREEN_HEIGHT / 7), 0, SCREEN_WIDTH, 0, SCREEN_HEIGHT);

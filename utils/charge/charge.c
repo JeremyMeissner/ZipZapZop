@@ -54,7 +54,7 @@ bool draw_field_line(struct gfx_context_t *ctxt, charge_t *charges, int num_char
     while (posSuivant.x < x1 && posSuivant.x > 0 && posSuivant.y < y1 && posSuivant.y > 0)
     {
         vec2 e;
-        if (!compute_total_normalized_e(charges, num_charges, pos0, 1e-3, &e))
+        if (!compute_total_normalized_e(charges, num_charges, posSuivant, 1e-3, &e))
             return false;
 
         double enorme = vec2_norm(e);
