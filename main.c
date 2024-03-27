@@ -48,7 +48,7 @@ int main()
         if (gfx_mouseclicked(x, y))
         {
             charges = realloc(charges, (number_of_charges + 1) * sizeof(charge_t));
-            charges[number_of_charges] = charge_create((rand() % 1) - 1, vec2_create(*x, *y));
+            charges[number_of_charges] = charge_create((rand() % 2) - 1, vec2_create(*x, *y));
             number_of_charges++;
         }
 
