@@ -24,18 +24,12 @@ int main()
     charge_t *charges = malloc(2 * sizeof(charge_t)); // Initially allocate memory for 2 charges
     int number_of_charges = 2;
 
-    charges[0] = charge_create(0.1, vec2_create(SCREEN_WIDTH / 4, SCREEN_HEIGHT / 4));
-    charges[1] = charge_create(-0.1, vec2_create(3 * SCREEN_WIDTH / 4, 3 * SCREEN_HEIGHT / 4));
+    charges[0] = charge_create(1, vec2_create(SCREEN_WIDTH / 4, SCREEN_HEIGHT / 4));
+    charges[1] = charge_create(-1, vec2_create(3 * SCREEN_WIDTH / 4, 3 * SCREEN_HEIGHT / 4));
 
     int field_lines_array_precision = 10; //higher leads to worse performances to the square of the number
     double vertical_unit = SCREEN_HEIGHT / field_lines_array_precision;
     double horizontal_unit = SCREEN_WIDTH / field_lines_array_precision;
-
-    int charge_breathing_speed = 100;  //Higher number leads to slower breathing
-    int charge_breathing_status = charge_breathing_speed;
-    bool charge_breathing = true;  //When false the charge is decreasing
-    double step = 0.01/charge_breathing_speed;
-    printf("step: %f\n",step);
 
     while (true)
     {
@@ -48,35 +42,22 @@ int main()
         if (gfx_mouseclicked(x, y))
         {
             charges = realloc(charges, (number_of_charges + 1) * sizeof(charge_t));
-            charges[number_of_charges] = charge_create((rand() % 2) - 1, vec2_create(*x, *y));
+            charges[number_of_charges] = charge_create(((rand()%2) % 1) -1, vec2_create(*x, *y));
             number_of_charges++;
         }
 
-        if (gfx_keypressed() == 27)
+        if (gfx_keypressed() == 27) 
         { // Assuming 27 is the key code for Escape
             printf("Shutting down the app\n");
             break;
         }
-
-        //charge breathing
-        if(charge_breathing){
-            charge_breathing_status+=1;
-            if(charge_breathing_status >= charge_breathing_speed)
-                charge_breathing = false;
-        }else{
-            charge_breathing_status-=1;
-            if(charge_breathing_status <= 0)
-                charge_breathing = true;
-        }
         
         for(int i = 0; i < number_of_charges;i ++){
-            if(charge_breathing){
-                charges[i].q += step;
-            }else{
-                charges[i].q -= step;
-            }
-            printf("%f\n ",charges[i].q);
+           //printf("%f\n",((rand()%2000)-1000.0)/1000.0);
+           charges[i].q += ((rand()%2000)-1000.0)/1000000.0;
+           printf("charge %d: %f\n",i,charges[i].q);
         }
+        printf("\n");
 
         //DRAW
         for(int y = 0; y < field_lines_array_precision; y++)
