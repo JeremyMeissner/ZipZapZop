@@ -9,6 +9,7 @@ const float K = 8.9875517873681764e9;
 bool compute_e(charge_t c, vec2 p, double treshold, vec2 *e)
 {
     vec2 qp = vec2_sub(c.pos, p);
+    qp = vec2_mul(c.q,qp);
 
     double qpNorm = pow(vec2_norm(qp), 2);
 
@@ -33,6 +34,7 @@ bool compute_total_normalized_e(charge_t *charges, int num_charges, vec2 p, doub
     for (int i = 0; i < num_charges; i++)
     {
         vec2 ee;
+        //if (!compute_e(charges[i], p, treshold, &ee))
         if (!compute_e(charges[i], p, treshold, &ee))
         {
             return false;
