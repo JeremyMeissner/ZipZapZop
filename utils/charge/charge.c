@@ -97,13 +97,16 @@ void draw_charges(struct gfx_context_t *context, charge_t *charges, int num_char
         int color;
         if (charges[i].q < 0)
         {
-            color = MAKE_COLOR(255, 0, 0);
+            draw_full_circle(context,charges[i].pos.x, charges[i].pos.y,10,MAKE_COLOR(255, 0, 0));
+            draw_line(context,charges[i].pos.x, charges[i].pos.y - 5,charges[i].pos.x, charges[i].pos.y + 5 ,MAKE_COLOR(0,0,0));
+            draw_line(context,charges[i].pos.x - 5, charges[i].pos.y,charges[i].pos.x + 5, charges[i].pos.y,MAKE_COLOR(0,0,0));
+            
         }
         else
         {
-            color = MAKE_COLOR(0, 0, 255);
+            draw_full_circle(context,charges[i].pos.x, charges[i].pos.y,10,MAKE_COLOR(0, 0, 255));
+            draw_line(context,charges[i].pos.x - 5, charges[i].pos.y,charges[i].pos.x + 5, charges[i].pos.y,MAKE_COLOR(0,0,0));
         }
-        draw_circle(context, charges[i].pos.x, charges[i].pos.y, 10, color);
     }
 }
 
