@@ -51,13 +51,13 @@ int main()
             printf("Shutting down the app\n");
             break;
         }
-        
+        //Add fluctuation to the charges
         for(int i = 0; i < number_of_charges;i ++){
            //printf("%f\n",((rand()%2000)-1000.0)/1000.0);
            charges[i].q += ((rand()%2000)-1000.0)/1000000.0;
-           printf("charge %d: %f\n",i,charges[i].q);
+           //printf("charge %d: %f\n",i,charges[i].q);
         }
-        printf("\n");
+        //printf("\n");
 
         //DRAW
         for(int y = 0; y < field_lines_array_precision; y++)
@@ -65,6 +65,16 @@ int main()
                 draw_field_lines(ctxt, charges, number_of_charges, 1, vec2_create(horizontal_unit * x,vertical_unit * y), 0, SCREEN_WIDTH, 0, SCREEN_HEIGHT);
 
         draw_charges(ctxt, charges, number_of_charges, 0, SCREEN_WIDTH, 0, SCREEN_HEIGHT);
+        
+
+
+        //Debug Drawing
+        /*
+        draw_line(ctxt,500,250,500,750,0);
+        draw_line(ctxt,250,500,750,500,0);
+
+        draw_circle(ctxt,500,500,250,0);
+        */
     }
 
     free(charges); // Don't forget to free the dynamically allocated memory

@@ -6,6 +6,7 @@
 
 #include "gfx.h"
 #include <assert.h>
+#include "../vec2/vec2.h"
 
 /// Create a fullscreen graphic window.
 /// @param title Title of the window.
@@ -125,15 +126,6 @@ bool gfx_mouseclicked(int *x, int *y)
     return false;
 }
 
-void gfx_draw_line(struct gfx_context_t *ctxt, coordinates_t p0, coordinates_t p1, uint32_t color)
-{
-    // Todo
-}
-void gfx_draw_circle(struct gfx_context_t *ctxt, coordinates_t c, uint32_t r, uint32_t color)
-{
-    // Todo
-}
-
 /// Draw a full circle using Andres's discrete circle algorithm.
 /// @param ctxt Graphic context to clear.
 /// @param c_column X coordinate of the circle center.
@@ -180,59 +172,82 @@ void draw_full_circle(struct gfx_context_t *ctxt, uint32_t c_column, uint32_t c_
 
 void draw_circle(struct gfx_context_t *ctxt, uint32_t c_column, uint32_t c_row, uint32_t r, uint32_t color)
 {
-    int32_t x = 0, y = r, d = r - 1;
-    while (y >= x)
-    {
+    // Check if the graphics context pointer is valid
+    if (ctxt == NULL) {
+        printf("Error: Invalid graphics context pointer\n");
+        return;
+    }
+
+    // Midpoint circle algorithm
+    int x = r;
+    int y = 0;
+    int err = 0;
+
+    while (x >= y) {
         gfx_putpixel(ctxt, c_column + x, c_row + y, color);
         gfx_putpixel(ctxt, c_column + y, c_row + x, color);
-        gfx_putpixel(ctxt, c_column - x, c_row + y, color);
         gfx_putpixel(ctxt, c_column - y, c_row + x, color);
-
-        gfx_putpixel(ctxt, c_column + x, c_row - y, color);
-        gfx_putpixel(ctxt, c_column + y, c_row - x, color);
+        gfx_putpixel(ctxt, c_column - x, c_row + y, color);
         gfx_putpixel(ctxt, c_column - x, c_row - y, color);
         gfx_putpixel(ctxt, c_column - y, c_row - x, color);
+        gfx_putpixel(ctxt, c_column + y, c_row - x, color);
+        gfx_putpixel(ctxt, c_column + x, c_row - y, color);
 
-        if ((2 * x) <= d)
-        {
-            d -= 2 * x + 1;
-            x += 1;
+        if (err <= 0) {
+            y += 1;
+            err += 2*y + 1;
         }
-        else if (d < (2 * (((int32_t)r) - y)))
-        {
-            d += 2 * y - 1;
-            y -= 1;
-        }
-        else
-        {
-            d -= 2 * (x - y + 1);
-            y -= 1;
-            x += 1;
+        if (err > 0) {
+            x -= 1;
+            err -= 2*x + 1;
         }
     }
 }
 
+int truncateFloat(float number) {
+    int integerPart = (int)number;
+    return integerPart;
+}
+
 void draw_line(struct gfx_context_t *ctxt, int x0, int y0, int x1, int y1, uint32_t color)
 {
-    int dx = abs(x1 - x0), sx = x0 < x1 ? 1 : -1;
-    int dy = -abs(y1 - y0), sy = y0 < y1 ? 1 : -1;
-    int err = dx + dy, e2; /* error value e_xy */
+    vec2 start_point = vec2_create(0,0);
+    vec2 end_point = vec2_create(0,0);
+    if(x0 < x1){
+        start_point = vec2_create(x0,y0);
+        end_point = vec2_create(x1,y1);
+    }else{
+        start_point = vec2_create(x1,y1);
+        end_point = vec2_create(x0,y0);
+    }
 
-    while (1)
-    {
-        gfx_putpixel(ctxt, x0, y0, color);
-        if (x0 == x1 && y0 == y1)
-            break;
-        e2 = 2 * err;
-        if (e2 >= dy)
-        { /* e_xy+e_x > 0 */
-            err += dy;
-            x0 += sx;
+    gfx_putpixel(ctxt,start_point.x,start_point.y, 0);
+    gfx_putpixel(ctxt,end_point.x,end_point.y, 0);
+
+    //This calculate how much we need to increase the y value for each x step
+    double xDiff = (end_point.x-start_point.x);
+    double yDiff = (end_point.y-start_point.y);
+
+    double step = yDiff / xDiff;
+    if(xDiff == 0)
+        step = yDiff;
+
+    int currentX = start_point.x;
+    double currentY = start_point.y;
+
+    for(int i = 0; i <= xDiff;i++){
+        int heightToDraw = abs(truncateFloat(step));
+        for(int j = 0; j < heightToDraw; j++){
+            if(step < 0){
+                currentY --;
+            }else{
+                currentY ++;
+            }
+            gfx_putpixel(ctxt,currentX,truncateFloat(currentY), 0);
         }
-        if (e2 <= dx)
-        { /* e_xy+e_y < 0 */
-            err += dx;
-            y0 += sy;
-        }
+        
+        currentY += step - truncateFloat(step);
+        currentX ++;
+        gfx_putpixel(ctxt,currentX,truncateFloat(currentY), 0);
     }
 }
