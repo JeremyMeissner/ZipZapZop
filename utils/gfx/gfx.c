@@ -247,7 +247,8 @@ void draw_line(struct gfx_context_t *ctxt, int x0, int y0, int x1, int y1, uint3
         }
         
         currentY += step - truncateFloat(step);
-        currentX ++;
+        if(xDiff != 0)
+            currentX ++;
         gfx_putpixel(ctxt,currentX,truncateFloat(currentY), 0);
     }
 }
