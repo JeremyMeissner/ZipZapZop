@@ -62,12 +62,10 @@ int main()
         //DRAW
         for(int y = 0; y < field_lines_array_precision; y++)
             for(int x = 0; x < field_lines_array_precision;x++)
-                draw_field_lines(ctxt, charges, number_of_charges, 1, vec2_create(horizontal_unit * x,vertical_unit * y), 0, SCREEN_WIDTH, 0, SCREEN_HEIGHT);
+                draw_field_lines(ctxt, charges, number_of_charges, 0.088, vec2_create(horizontal_unit * x,vertical_unit * y), 0, SCREEN_WIDTH, 0, SCREEN_HEIGHT);
 
         draw_charges(ctxt, charges, number_of_charges, 0, SCREEN_WIDTH, 0, SCREEN_HEIGHT);
         
-
-
         //Debug Drawing
         /*
         draw_line(ctxt,500,250,500,750,0);

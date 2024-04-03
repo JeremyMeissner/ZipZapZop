@@ -221,8 +221,8 @@ void draw_line(struct gfx_context_t *ctxt, int x0, int y0, int x1, int y1, uint3
         end_point = vec2_create(x0,y0);
     }
 
-    gfx_putpixel(ctxt,start_point.x,start_point.y, 0);
-    gfx_putpixel(ctxt,end_point.x,end_point.y, 0);
+    gfx_putpixel(ctxt,start_point.x,start_point.y, color);
+    gfx_putpixel(ctxt,end_point.x,end_point.y, color);
 
     //This calculate how much we need to increase the y value for each x step
     double xDiff = (end_point.x-start_point.x);
@@ -243,12 +243,12 @@ void draw_line(struct gfx_context_t *ctxt, int x0, int y0, int x1, int y1, uint3
             }else{
                 currentY ++;
             }
-            gfx_putpixel(ctxt,currentX,truncateFloat(currentY), 0);
+            gfx_putpixel(ctxt,currentX,truncateFloat(currentY), color);
         }
         
         currentY += step - truncateFloat(step);
         if(xDiff != 0)
             currentX ++;
-        gfx_putpixel(ctxt,currentX,truncateFloat(currentY), 0);
+        gfx_putpixel(ctxt,currentX,truncateFloat(currentY), color);
     }
 }

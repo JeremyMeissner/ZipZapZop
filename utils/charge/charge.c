@@ -70,7 +70,9 @@ bool draw_field_line(struct gfx_context_t *ctxt, charge_t *charges, int num_char
 
         posSuivant = vec2_add(posSuivant, delta);
 
-        draw_line(ctxt, posNow.x, posNow.y, posSuivant.x, posSuivant.y, MAKE_COLOR(0, 0, 0));
+        draw_full_circle(ctxt, posNow.x, posNow.y,abs(posSuivant.x-posNow.x) + 1, MAKE_COLOR(60, 60, 60));
+
+       //draw_line(ctxt, posNow.x, posNow.y, posSuivant.x, posSuivant.y, MAKE_COLOR(0, 0, 0));
     }
 
     return true;
@@ -107,6 +109,8 @@ void draw_charges(struct gfx_context_t *context, charge_t *charges, int num_char
             draw_full_circle(context,charges[i].pos.x, charges[i].pos.y,10,MAKE_COLOR(0, 0, 255));
             draw_line(context,charges[i].pos.x - 5, charges[i].pos.y,charges[i].pos.x + 5, charges[i].pos.y,MAKE_COLOR(0,0,0));
         }
+        //drawing a little outline
+        draw_circle(context,charges[i].pos.x, charges[i].pos.y,10+1,MAKE_COLOR(0, 0, 0));
     }
 }
 
