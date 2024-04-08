@@ -3,6 +3,7 @@
     "utils.h": "c",
     "gfx.h": "c",
     "stdbool.h": "c",
-    "charge.h": "c"
+    "charge.h": "c",
+    "vec2.h": "c"
   }
 }

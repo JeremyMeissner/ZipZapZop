@@ -21,6 +21,8 @@ bool draw_field_lines(struct gfx_context_t *ctxt, charge_t *charges, int num_cha
 
 void draw_charges(struct gfx_context_t *context, charge_t *charges, int num_charges, double x0, double x1, double y0, double y1);
 
+void update_charges(charge_t *charges, int num_charges, double dt);
+
 charge_t charge_create(double q, vec2 pos);
 
 #endif

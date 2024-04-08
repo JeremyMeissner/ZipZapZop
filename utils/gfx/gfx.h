@@ -44,7 +44,7 @@ extern void gfx_present(struct gfx_context_t *ctxt);
 // new
 void gfx_draw_line(struct gfx_context_t *ctxt, coordinates_t p0, coordinates_t p1, uint32_t color);
 void gfx_draw_circle(struct gfx_context_t *ctxt, coordinates_t c, uint32_t r, uint32_t color);
-extern SDL_Keycode gfx_keypressed();
+extern SDL_Keycode gfx_keypressed(int *x, int *y);
 // The illegals ones to use
 extern void draw_circle(struct gfx_context_t *ctxt, uint32_t c_column, uint32_t c_row, uint32_t r, uint32_t color);
 extern void draw_line(struct gfx_context_t *ctxt, int x0, int y0, int x1, int y1, uint32_t color);

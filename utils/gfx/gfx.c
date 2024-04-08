@@ -96,14 +96,23 @@ void gfx_destroy(struct gfx_context_t *ctxt)
 /// If a key was pressed, returns its key code (non blocking call).
 /// List of key codes: https://wiki.libsdl.org/SDL_Keycode
 /// @return the key that was pressed or 0 if none was pressed.
-SDL_Keycode gfx_keypressed()
+SDL_Keycode gfx_keypressed(int *x, int *y)
 {
     SDL_Event event;
     if (SDL_PollEvent(&event))
     {
         if (event.type == SDL_KEYDOWN)
+        {
             return event.key.keysym.sym;
+        }
+        if (event.type == SDL_MOUSEBUTTONDOWN)
+        {
+            *x = event.button.x;
+            *y = event.button.y;
+            return SDL_MOUSEBUTTONDOWN;
+        }
     }
+
     return 0;
 }
 
@@ -168,12 +177,24 @@ void draw_full_circle(struct gfx_context_t *ctxt, uint32_t c_column, uint32_t c_
         draw_full_circle(ctxt, c_column, c_row, r - 1, color);
 }
 
+void draw_rectangle(struct gfx_context_t *ctxt, uint32_t x, uint32_t y, uint32_t width, uint32_t height, uint32_t color)
+{
+    for (uint32_t i = 0; i < width; i++)
+    {
+        for (uint32_t j = 0; j < height; j++)
+        {
+            gfx_putpixel(ctxt, x + i, y + j, color);
+        }
+    }
+}
+
 // Those are illegal to use in the final product
 
 void draw_circle(struct gfx_context_t *ctxt, uint32_t c_column, uint32_t c_row, uint32_t r, uint32_t color)
 {
     // Check if the graphics context pointer is valid
-    if (ctxt == NULL) {
+    if (ctxt == NULL)
+    {
         printf("Error: Invalid graphics context pointer\n");
         return;
     }
@@ -183,7 +204,8 @@ void draw_circle(struct gfx_context_t *ctxt, uint32_t c_column, uint32_t c_row, 
     int y = 0;
     int err = 0;
 
-    while (x >= y) {
+    while (x >= y)
+    {
         gfx_putpixel(ctxt, c_column + x, c_row + y, color);
         gfx_putpixel(ctxt, c_column + y, c_row + x, color);
         gfx_putpixel(ctxt, c_column - y, c_row + x, color);
@@ -193,62 +215,73 @@ void draw_circle(struct gfx_context_t *ctxt, uint32_t c_column, uint32_t c_row, 
         gfx_putpixel(ctxt, c_column + y, c_row - x, color);
         gfx_putpixel(ctxt, c_column + x, c_row - y, color);
 
-        if (err <= 0) {
+        if (err <= 0)
+        {
             y += 1;
-            err += 2*y + 1;
+            err += 2 * y + 1;
         }
-        if (err > 0) {
+        if (err > 0)
+        {
             x -= 1;
-            err -= 2*x + 1;
+            err -= 2 * x + 1;
         }
     }
 }
 
-int truncateFloat(float number) {
+int truncateFloat(float number)
+{
     int integerPart = (int)number;
     return integerPart;
 }
 
 void draw_line(struct gfx_context_t *ctxt, int x0, int y0, int x1, int y1, uint32_t color)
 {
-    vec2 start_point = vec2_create(0,0);
-    vec2 end_point = vec2_create(0,0);
-    if(x0 < x1){
-        start_point = vec2_create(x0,y0);
-        end_point = vec2_create(x1,y1);
-    }else{
-        start_point = vec2_create(x1,y1);
-        end_point = vec2_create(x0,y0);
+    vec2 start_point = vec2_create(0, 0);
+    vec2 end_point = vec2_create(0, 0);
+    if (x0 < x1)
+    {
+        start_point = vec2_create(x0, y0);
+        end_point = vec2_create(x1, y1);
+    }
+    else
+    {
+        start_point = vec2_create(x1, y1);
+        end_point = vec2_create(x0, y0);
     }
 
-    gfx_putpixel(ctxt,start_point.x,start_point.y, color);
-    gfx_putpixel(ctxt,end_point.x,end_point.y, color);
+    gfx_putpixel(ctxt, start_point.x, start_point.y, color);
+    gfx_putpixel(ctxt, end_point.x, end_point.y, color);
 
-    //This calculate how much we need to increase the y value for each x step
-    double xDiff = (end_point.x-start_point.x);
-    double yDiff = (end_point.y-start_point.y);
+    // This calculate how much we need to increase the y value for each x step
+    double xDiff = (end_point.x - start_point.x);
+    double yDiff = (end_point.y - start_point.y);
 
     double step = yDiff / xDiff;
-    if(xDiff == 0)
+    if (xDiff == 0)
         step = yDiff;
 
     int currentX = start_point.x;
     double currentY = start_point.y;
 
-    for(int i = 0; i <= xDiff;i++){
+    for (int i = 0; i <= xDiff; i++)
+    {
         int heightToDraw = abs(truncateFloat(step));
-        for(int j = 0; j < heightToDraw; j++){
-            if(step < 0){
-                currentY --;
-            }else{
-                currentY ++;
+        for (int j = 0; j < heightToDraw; j++)
+        {
+            if (step < 0)
+            {
+                currentY--;
             }
-            gfx_putpixel(ctxt,currentX,truncateFloat(currentY), color);
+            else
+            {
+                currentY++;
+            }
+            gfx_putpixel(ctxt, currentX, truncateFloat(currentY), color);
         }
-        
+
         currentY += step - truncateFloat(step);
-        if(xDiff != 0)
-            currentX ++;
-        gfx_putpixel(ctxt,currentX,truncateFloat(currentY), color);
+        if (xDiff != 0)
+            currentX++;
+        gfx_putpixel(ctxt, currentX, truncateFloat(currentY), color);
     }
 }
